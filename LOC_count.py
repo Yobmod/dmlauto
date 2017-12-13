@@ -10,12 +10,12 @@ def countlines(start, lines=0, header=True, begin_start=None):
     if header:
         print('{:>10} |{:>10} | {:<20}'.format('ADDED', 'TOTAL', 'FILE')) # print column titles
         print('{:->11}|{:->11}|{:->20}'.format('', '', '')) # print line
-
+    ext_tup = ('.py', '.pyx', '.c', '.cpp', '.js', '.jsx', '.ts', '.tsx')
     for thing in os.listdir(start):
         thing = os.path.join(start, thing)
         if os.path.isfile(thing):
 
-            if thing.endswith('.py') or thing.endswith('.c'):
+            if thing.endswith(ext_tup):
                 with open(thing, 'r') as f:
                     newlines = f.readlines()
                     newlines = len(newlines)
@@ -38,7 +38,7 @@ def countlines(start, lines=0, header=True, begin_start=None):
                 lines = countlines(thing, lines, header=False, begin_start=start)
     return lines
 
-def pyLines(directory):
+def pyLines(directory: str) -> int:
     exc_list = ["vendor", "dist", "build", "energenie"]
     py_lines = 0
     for thing in os.listdir(directory):
