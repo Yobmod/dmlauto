@@ -56,6 +56,9 @@ def pyLines(directory: str) -> int:
                 py_lines = py_lines + lines
     return py_lines
 
+#textList = ['a.tif','b.jpg','c.doc','d.txt','e.tif'];
+#filteredList = filter(lambda x:x.endswith('.tif'), textList)
+
 def jsLines(directory):
     js_lines = 0
     ts_lines = 0
