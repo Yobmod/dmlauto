@@ -1,0 +1,15 @@
+colorama==0.3.9
+coverage==4.4.2
+Cython==0.26.1
+docutils==0.14
+Kivy==1.10.0
+Kivy-Garden==0.1.4
+kivy.deps.angle==0.1.6
+kivy.deps.glew==0.1.9
+kivy.deps.gstreamer==0.1.12
+kivy.deps.sdl2==0.1.17
+mypy==0.560
+pycodestyle==2.3.1
+pygame==1.9.3
+Pygments==2.2.0
+typing==3.6.2
