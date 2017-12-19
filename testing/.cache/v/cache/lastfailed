@@ -1,0 +1,10 @@
+{
+  "test_LLOC_count.py::test_answer": true,
+  "test_LLOC_count.py::test_countlines::test_input": true,
+  "test_LLOC_count.py::test_countlines::test_output_type": true,
+  "test_sample.py": true,
+  "test_sample.py::TestClass": true,
+  "test_sample.py::TestClass::()": true,
+  "test_sample.py::TestClass::()::test_two": true,
+  "test_sample.py::test_answer": true
+}

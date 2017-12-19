@@ -6,8 +6,9 @@ Created on Fri Dec 15 11:31:44 2017
 @author: yobmod
 """
 
-import pygame, sys
-from pygame.locals import *   # QUIT
+import pygame
+import sys
+from pygame.locals import QUIT
 
 pygame.init()
 
@@ -16,15 +17,15 @@ pygame.display.set_caption('Hello World!')
 
 ALPHASURF = DISPLAYSURF.convert_alpha()
 WHITE = (255, 255, 255)
-BLACK = ( 0, 0, 0)
-GREEN = ( 0, 255, 0)
-BLUE  = (  0,   0, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 DISPLAYSURF.fill(WHITE)
-pygame.draw.polygon(DISPLAYSURF, GREEN, [(146, 0), 
-                                         (291, 106), 
-                                         (236, 277), 
-                                         (56, 277), 
+pygame.draw.polygon(DISPLAYSURF, GREEN, [(146, 0),
+                                         (291, 106),
+                                         (236, 277),
+                                         (56, 277),
                                          (0, 106), ])
 pygame.draw.line(DISPLAYSURF, BLUE, (60, 60), (120, 60), 4)
 pygame.draw.line(DISPLAYSURF, BLUE, (120, 60), (60, 120), 4)
@@ -45,4 +46,3 @@ while True:
             pygame.quit()
             sys.exit()
     pygame.display.update()
-    
