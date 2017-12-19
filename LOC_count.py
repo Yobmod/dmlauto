@@ -58,6 +58,9 @@ def pyLines(directory: str) -> int:
 
 #textList = ['a.tif','b.jpg','c.doc','d.txt','e.tif'];
 #filteredList = filter(lambda x:x.endswith('.tif'), textList)
+    #or
+#filtered = regexp( filelist ,'(\w*.txt$)|(\w*.doc$)','match')
+#filtered = [filtered{:}]
 
 def jsLines(directory):
     js_lines = 0
