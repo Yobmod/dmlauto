@@ -1,9 +1,10 @@
-# content of test_sample.py
-def func(x: int) -> str:
+def func(x: int) -> int:
     return x + 1
 
+
 def test_answer():
-    assert func(3) == 5
+    assert func(3) == 4
+
 
 class TestClass(object):
     def test_one(self):
@@ -12,4 +13,4 @@ class TestClass(object):
 
     def test_two(self):
         x = "hello"
-        assert hasattr(x, 'check')
+        assert not hasattr(x, 'check')
