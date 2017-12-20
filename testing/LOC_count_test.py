@@ -77,4 +77,4 @@ def test_typeLines_input():
 					LOC_count.typeLines(fold_dir, fail_type)
 			else:
 				with pytest.raises(TypeError):
-					LOC_count.typeLines(fold_dir, fail_type)
+					LOC_count.typeLines(fold_dir, fail_type)		# type: ignore

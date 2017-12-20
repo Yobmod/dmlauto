@@ -1,29 +1,29 @@
 import os
-from typing import List, Dict, Optional  # , Union, Any, NewType, get_type_hints
+from typing import List, Dict, Optional, Tuple  # , Union, Any, NewType, get_type_hints
 
 
 def countlines(start: str, lines: int=0, header: bool=True, begin_start: Optional[str]=None) -> int:
-	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
-	if header:
-		print('{:>10} |{:>10} | {:<20}'.format('ADDED', 'TOTAL', 'FILE'))  # print column titles
-		print('{:->11}|{:->11}|{:->20}'.format('', '', ''))  # print line
+	def print_header(header: bool=header) -> None:
+		if header:
+			print('{:>10} |{:>10} | {:<20}'.format('ADDED', 'TOTAL', 'FILE'))  # print column titles
+			print('{:->11}|{:->11}|{:->20}'.format('', '', ''))  # print line
+	print_header()
 	ext_tup = ('.py', '.pyx', '.c', '.cpp', '.js', '.jsx', '.ts', '.tsx')
+	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
+
 	for thing in os.listdir(start):
 		thing = os.path.join(start, thing)
-		if os.path.isfile(thing):
+		if os.path.isfile(thing) and thing.endswith(ext_tup):
+			if begin_start is not None:
+				reldir_of_thing = '.' + thing.replace(begin_start, '')
+			else:
+				reldir_of_thing = '.' + thing.replace(start, '')
+			with open(thing, 'r', encoding="utf8") as f:
+				newlines = f.readlines()
+				num_lines: int = len(newlines)
+				lines += num_lines
 
-			if thing.endswith(ext_tup):
-				with open(thing, 'r', encoding="utf8") as f:
-					newlines = f.readlines()
-					num_lines: int = len(newlines)
-					lines += num_lines
-
-					if begin_start is not None:
-						reldir_of_thing = '.' + thing.replace(begin_start, '')
-					else:
-						reldir_of_thing = '.' + thing.replace(start, '')
-
-					print('{:>10} |{:>10} | {:<20}'.format(num_lines, lines, reldir_of_thing))
+				print('{:>10} |{:>10} | {:<20}'.format(num_lines, lines, reldir_of_thing))
 
 	for thing in os.listdir(start):
 		thing = os.path.join(start, thing)
@@ -50,27 +50,29 @@ def pyLines(directory: str) -> int:
 
 
 def typeLines(fold_dir: str, file_type: str) -> int:
-	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
-	# ext_tup = ()
-	lines = 0
-	if file_type == "python":
-		ext_tup = ('.py', '.pyx', )
-	elif file_type == "javascript":
-		ext_tup = ('.js', '.jsx', )
-	elif file_type == "c":
-		ext_tup = ('.c', '.cpp', )
-	else:
+	def ext_tupple(file_type: str=file_type) -> Tuple[str, ...]:
 		if isinstance(file_type, str):
-			raise ValueError("allowed filetypes are: 'python', 'javascript', 'c' ")
+			file_type = file_type.lower()
+			if file_type in ("python", "py"):
+				ext_tup = ('.py', '.pyx', )
+			elif file_type in ("javascript", "js"):
+				ext_tup = ('.js', '.jsx', )
+			elif file_type in ("c", "cpp", "c++"):
+				ext_tup = ('.c', '.cpp', )
+			else:
+				raise ValueError("allowed filetypes are: 'python', 'javascript', 'c' ")
 		else:
 			raise TypeError("filetype must be a string")
+		return ext_tup
+	ext_tup = ext_tupple()
+	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
+	lines = 0
 	for thing in os.listdir(fold_dir):
 		thing = os.path.join(fold_dir, thing)
-		if os.path.isfile(thing):
+		if os.path.isfile(thing) and thing.endswith(ext_tup):
 			with open(thing, 'r') as f:
-				if thing.endswith(ext_tup):
-					newlines = f.readlines()
-					lines += len(newlines)
+				newlines = f.readlines()
+				lines += len(newlines)
 		elif os.path.isdir(thing) and not any(x in thing for x in exc_list):
 			fold_lines = typeLines(thing, file_type)
 			lines += fold_lines
@@ -118,7 +120,7 @@ def typeLines_print(fold_dir: str) -> Dict[str, int]:
 	cLOC = cLines(fold_dir)
 	pyLOC2 = typeLines(fold_dir, "python")
 	jsLOC2 = typeLines(fold_dir, "javascript")
-	cLOC2 = typeLines(fold_dir, "c")
+	cLOC2 = typeLines(fold_dir, "C")
 	print(str(pyLOC) + "py", str(jsLOC) + "js", str(cLOC) + "c")
 	print(str(pyLOC2) + "py", str(jsLOC2) + "js", str(cLOC2) + "c")
 
