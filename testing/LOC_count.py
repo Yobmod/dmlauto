@@ -49,22 +49,24 @@ def pyLines(directory: str) -> int:
 	return py_lines
 
 
-def typeLines(fold_dir: str, file_type: str) -> int:
-	def ext_tupple(file_type: str=file_type) -> Tuple[str, ...]:
-		if isinstance(file_type, str):
-			file_type = file_type.lower()
-			if file_type in ("python", "py"):
-				ext_tup = ('.py', '.pyx', )
-			elif file_type in ("javascript", "js"):
-				ext_tup = ('.js', '.jsx', )
-			elif file_type in ("c", "cpp", "c++"):
-				ext_tup = ('.c', '.cpp', )
-			else:
-				raise ValueError("allowed filetypes are: 'python', 'javascript', 'c' ")
+def ext_tupple(file_type: str) -> Tuple[str, ...]:
+	if isinstance(file_type, str):
+		file_type = file_type.lower()
+		if file_type in ("python", "py"):
+			ext_tup = ('.py', '.pyx', )
+		elif file_type in ("javascript", "js"):
+			ext_tup = ('.js', '.jsx', )
+		elif file_type in ("c", "cpp", "c++"):
+			ext_tup = ('.c', '.cpp', )
 		else:
-			raise TypeError("filetype must be a string")
-		return ext_tup
-	ext_tup = ext_tupple()
+			raise ValueError("allowed filetypes are: 'python', 'javascript', 'c' ")
+	else:
+		raise TypeError("filetype must be a string")
+	return ext_tup
+
+
+def typeLines(fold_dir: str, file_type: str) -> int:
+	ext_tup = ext_tupple(file_type)
 	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
 	lines = 0
 	for thing in os.listdir(fold_dir):
@@ -115,19 +117,20 @@ def cLines(directory: str) -> int:
 
 
 def typeLines_print(fold_dir: str) -> Dict[str, int]:
-	pyLOC = pyLines(fold_dir)
-	jsLOC = jsLines(fold_dir)
-	cLOC = cLines(fold_dir)
+	# pyLOC = pyLines(fold_dir)
+	# jsLOC = jsLines(fold_dir)
+	# cLOC = cLines(fold_dir)
 	pyLOC2 = typeLines(fold_dir, "python")
 	jsLOC2 = typeLines(fold_dir, "javascript")
 	cLOC2 = typeLines(fold_dir, "C")
-	print(str(pyLOC) + "py", str(jsLOC) + "js", str(cLOC) + "c")
+	# print(str(pyLOC) + "py", str(jsLOC) + "js", str(cLOC) + "c")
+	# return {"py": pyLOC, "js": jsLOC, "c": cLOC, }
+
 	print(str(pyLOC2) + "py", str(jsLOC2) + "js", str(cLOC2) + "c")
+	return {"py": pyLOC2, "js": jsLOC2, "c": cLOC2, }
 
-	return {"py": pyLOC, "js": jsLOC, "c": cLOC, }
 
-
-if __name__ == "__main__":
+if __name__ == "__main__": 		# pragma: no cover
 	fold_dir = os.getcwd()
 	countlines(fold_dir)
 	typeLines_print(fold_dir)
