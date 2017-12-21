@@ -3,6 +3,7 @@
   "test_LLOC_count.py::test_answer": true,
   "test_LLOC_count.py::test_countlines::test_input": true,
   "test_LLOC_count.py::test_countlines::test_output_type": true,
+  "tests/LOC_count_test.py::TestTypeLines::()::test_ext_tupple_input_type": true,
   "tests/LOC_count_test.py::test_c_output_type": true,
   "tests/LOC_count_test.py::test_ext_tupple_input_type": true,
   "tests/LOC_count_test.py::test_js_output_type": true,

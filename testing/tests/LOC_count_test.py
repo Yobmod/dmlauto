@@ -50,6 +50,8 @@ class TestPyJsCLines():
 
 class TestTypeLines():
 	fold_dirs = [os.getcwd(), "./", ".", ("."), ]
+	file_types = ["python", "javascript", "c"]
+
 	fail_types = [5, 1001, "str", {"str": 5}]
 	succ_types = ["python", "javascript", "c"]
 
@@ -71,7 +73,7 @@ class TestTypeLines():
 				x = LOC_count.ext_tupple(succ_type)
 				assert isinstance(x, tuple) and len(x) > 0
 				for item in x:
-					assert isinstance(item, str) and len(x) > 0
+					assert isinstance(item, str) and 0 < len(x) <= 5
 
 	def test_typeLines_output(self):
 		for fold_dir in self.fold_dirs:
