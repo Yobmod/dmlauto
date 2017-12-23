@@ -49,38 +49,6 @@ def pyLines(directory: str) -> int:
 	return py_lines
 
 
-def jsLines(directory: str) -> int:
-	js_lines = 0
-	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
-	for thing in os.listdir(directory):
-		thing = os.path.join(directory, thing)
-		if os.path.isfile(thing):
-			with open(thing, 'r') as f:
-				if thing.endswith('.js') or thing.endswith('.jsx'):
-					newlines = f.readlines()
-					js_lines = js_lines + len(newlines)
-		elif os.path.isdir(thing) and not any(x in thing for x in exc_list):
-				lines = jsLines(thing)
-				js_lines += lines
-	return js_lines
-
-
-def cLines(directory: str) -> int:
-	c_lines = 0
-	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
-	for thing in os.listdir(directory):
-		thing = os.path.join(directory, thing)
-		if os.path.isfile(thing):
-			with open(thing, 'r', encoding="utf8") as f:
-				if thing.endswith('.c') or thing.endswith('.cpp'):
-					newlines = f.readlines()
-					c_lines = c_lines + len(newlines)
-		elif os.path.isdir(thing) and not any(x in thing for x in exc_list):
-				lines = cLines(thing)
-				c_lines = c_lines + lines
-	return c_lines
-
-
 def ext_tuple(file_type: Union[str, Tuple[str, ...]]) -> Tuple[str, ...]:
 	"""Takes filetype(s) as string or tuple. Filetype should be '.xyz'
 	or name of language. Outputs tuple of file extentions"""
@@ -115,7 +83,7 @@ def ext_tuple(file_type: Union[str, Tuple[str, ...]]) -> Tuple[str, ...]:
 
 
 def exclude_list(black_list: Union[str, List[str]]=None) -> List[str]:
-	exc_list: List[str] = ["vendor", "dist", "build", "htmlcov", ]
+	exc_list: List[str] = ["vendor", "dist", "build", "htmlcov" ]
 	if black_list:
 		if isinstance(black_list, list):
 			exc_list += black_list
@@ -151,16 +119,48 @@ def typeLines(
 # filteredList = filter(lambda x:x.endswith('.tif'), textList)
 
 
+def jsLines(directory: str) -> int:
+	js_lines = 0
+	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
+	for thing in os.listdir(directory):
+		thing = os.path.join(directory, thing)
+		if os.path.isfile(thing):
+			with open(thing, 'r') as f:
+				if thing.endswith('.js') or thing.endswith('.jsx'):
+					newlines = f.readlines()
+					js_lines = js_lines + len(newlines)
+		elif os.path.isdir(thing) and not any(x in thing for x in exc_list):
+				lines = jsLines(thing)
+				js_lines += lines
+	return js_lines
+
+
+def cLines(directory: str) -> int:
+	c_lines = 0
+	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
+	for thing in os.listdir(directory):
+		thing = os.path.join(directory, thing)
+		if os.path.isfile(thing):
+			with open(thing, 'r', encoding="utf8") as f:
+				if thing.endswith('.c') or thing.endswith('.cpp'):
+					newlines = f.readlines()
+					c_lines = c_lines + len(newlines)
+		elif os.path.isdir(thing) and not any(x in thing for x in exc_list):
+				lines = cLines(thing)
+				c_lines = c_lines + lines
+	return c_lines
+
+
 def typeLines_print(fold_dir: str) -> Dict[str, int]:
 	# pyLOC = pyLines(fold_dir)
 	# jsLOC = jsLines(fold_dir)
 	# cLOC = cLines(fold_dir)
 	pyLOC2 = typeLines(fold_dir, "python")
 	jsLOC2 = typeLines(fold_dir, "javascript")
-	cLOC2 = typeLines(fold_dir, "c")
-	iniLOC2 = typeLines(fold_dir, ".INI")
+	cLOC2 = typeLines(fold_dir, "C")
 	# print(str(pyLOC) + "py", str(jsLOC) + "js", str(cLOC) + "c")
 	# return {"py": pyLOC, "js": jsLOC, "c": cLOC, }
+
 	print(str(pyLOC2) + "py", str(jsLOC2) + "js", str(cLOC2) + "c")
 	return {"py": pyLOC2, "js": jsLOC2, "c": cLOC2, }
 

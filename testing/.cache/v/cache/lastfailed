@@ -1,4 +1,5 @@
 {
+  "LOC_count_V3.py": true,
   "LOC_count_test.py::test_main": true,
   "test_LLOC_count.py::test_answer": true,
   "test_LLOC_count.py::test_countlines::test_input": true,

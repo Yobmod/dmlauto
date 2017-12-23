@@ -59,7 +59,7 @@ class TestTypeLines():
 		".py", ".txt", ".INI", (".js", ".md")
 	]
 
-	black_list_types = ["folder", ["fold", "not"], ("allowed", "use")]
+	black_list_types = ["folder", ["fold", "not"], ("allowed", "use"), None]
 
 	def test_typeLines_print_output(self):
 		for fold_dir in self.fold_dirs:
@@ -77,7 +77,6 @@ class TestTypeLines():
 						LOC_count.typeLines(fail_dir, succ_type)		# type: ignore
 
 	def test_ext_tuple_input_type(self):
-		for folder in self.fold_dirs:
 			for fail_type in self.fail_types:
 				if isinstance(fail_type, str):
 					with pytest.raises(ValueError):
@@ -97,7 +96,7 @@ class TestTypeLines():
 
 	def test_exclude_list(self):
 		for black_list in self.black_list_types:
-			if isinstance(black_list, (str, list)):
+			if isinstance(black_list, (str, list)) or black_list is None:
 				x = LOC_count.exclude_list(black_list)
 				assert isinstance(x, list) and len(x) > 0
 			else:
