@@ -151,17 +151,20 @@ def typeLines(
 # filteredList = filter(lambda x:x.endswith('.tif'), textList)
 
 
-def typeLines_print(fold_dir: str) -> Dict[str, int]:
+def typeLines_print(
+	fold_dir: str,
+	black_list: Union[str, List[str]]=["tests", "mock"]) -> Dict[str, int]:
 	# pyLOC = pyLines(fold_dir)
 	# jsLOC = jsLines(fold_dir)
 	# cLOC = cLines(fold_dir)
-	pyLOC2 = typeLines(fold_dir, "python")
-	jsLOC2 = typeLines(fold_dir, "javascript")
-	cLOC2 = typeLines(fold_dir, "c")
+
+	pyLOC2 = typeLines(fold_dir, "python", black_list=black_list)
+	jsLOC2 = typeLines(fold_dir, "javascript", black_list=black_list)
+	cLOC2 = typeLines(fold_dir, "c", black_list=black_list)
 	iniLOC2 = typeLines(fold_dir, ".INI")
 	# print(str(pyLOC) + "py", str(jsLOC) + "js", str(cLOC) + "c")
 	# return {"py": pyLOC, "js": jsLOC, "c": cLOC, }
-	print(str(pyLOC2) + "py", str(jsLOC2) + "js", str(cLOC2) + "c")
+	print(str(pyLOC2) + "py", str(jsLOC2) + "js", str(cLOC2) + "c", str(iniLOC2) + "ini")
 	return {"py": pyLOC2, "js": jsLOC2, "c": cLOC2, }
 
 
