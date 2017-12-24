@@ -1,4 +1,8 @@
-
+*.coverage
+/htmlcov
+/.cache
+/.mypy_cache
+*.idea
 
 *.pyc
 __pycache__
