@@ -49,76 +49,6 @@ def pyLines(directory: str) -> int:
 	return py_lines
 
 
-def ext_tuple(file_type: Union[str, Tuple[str, ...]]) -> Tuple[str, ...]:
-	"""Takes filetype(s) as string or tuple. Filetype should be '.xyz'
-	or name of language. Outputs tuple of file extentions"""
-	ext_tup: Tuple[str, ...] = ()
-	file_type_dict: Dict[str, Tuple[str, ...]] = {
-		"python": ('.py', '.pyi', ),
-		"py": ('.py', '.pyi', ),
-		"cython": ('.pyx', ),
-		"cy": ('.pyx', ),
-		"javascript": ('.js', '.jsx', ),
-		"js": ('.js', '.jsx', ),
-		"typescript": ('.ts', '.tsx', ),
-		"ts": ('.ts', '.tsx', ),
-		"text": ('.txt', '.md', '.doc', 'docx', ),
-		"c": (".c", ".cpp", ".c++"),
-	}
-	if isinstance(file_type, str):
-		file_type = file_type.lower()
-		if file_type.startswith("."):
-			ext_tup = (file_type, )
-		elif file_type in file_type_dict:
-			ext_tup = file_type_dict[file_type]
-		else:
-			raise ValueError("filetype should be in form '.xyz' or 'python', 'javascript', 'c' ")
-	elif isinstance(file_type, tuple):
-		for x in file_type:
-			each_tup: Tuple[str, ...] = ext_tuple(x)
-			ext_tup = ext_tup + each_tup
-	else:
-		raise TypeError("filetype must be a string or tuple of strings")
-	return ext_tup
-
-
-def exclude_list(black_list: Union[str, List[str]]=None) -> List[str]:
-	exc_list: List[str] = ["vendor", "dist", "build", "htmlcov" ]
-	if black_list:
-		if isinstance(black_list, list):
-			exc_list += black_list
-		elif isinstance(black_list, str):
-			exc_list.append(black_list)
-		else:
-			raise TypeError("Excluded subfolders should be list of strings")
-	return exc_list
-
-
-def typeLines(
-	fold_dir: str,
-	file_type: Union[str, Tuple[str, ...]],
-	black_list: Union[str, List[str]]=None) -> int:
-	"""Takes fold_dir as abs or rel path string. Takes filetype as string or
-	tuple, converted by ext_tuple() to file extensions, then LOC counted in matching
-	files in fold_dir and subfolders. Excluded subfolders in from exclude_list()"""
-	ext_tup = ext_tuple(file_type)
-	exc_list = exclude_list(black_list)
-	lines = 0
-	for thing in os.listdir(fold_dir):
-		thing = os.path.join(fold_dir, thing)
-		if os.path.isfile(thing) and thing.endswith(ext_tup):
-			with open(thing, 'r') as f:
-				newlines = f.readlines()
-				lines += len(newlines)
-		elif os.path.isdir(thing) and not any(x in thing for x in exc_list):
-			fold_lines = typeLines(thing, file_type)
-			lines += fold_lines
-	return lines
-
-# textList = ['a.tif','b.jpg','c.doc','d.txt','e.tif'];
-# filteredList = filter(lambda x:x.endswith('.tif'), textList)
-
-
 def jsLines(directory: str) -> int:
 	js_lines = 0
 	exc_list: List[str] = ["vendor", "dist", "build", "energenie"]
@@ -151,13 +81,83 @@ def cLines(directory: str) -> int:
 	return c_lines
 
 
+class TypeLines():
+	exc_list: List[str] = ["vendor", "dist", "build", "htmlcov", ]
+	file_type_dict: Dict[str, Tuple[str, ...]] = {
+		"python": ('.py', '.pyi', ),
+		"py": ('.py', '.pyi', ),
+		"cython": ('.pyx', ),
+		"cy": ('.pyx', ),
+		"javascript": ('.js', '.jsx', ),
+		"js": ('.js', '.jsx', ),
+		"typescript": ('.ts', '.tsx', ),
+		"ts": ('.ts', '.tsx', ),
+		"text": ('.txt', '.md', '.doc', 'docx', ),
+		"c": (".c", ".cpp", ".c++"),
+	}
+	ext_tup: Tuple[str, ...] = ()
+
+	def ext_tuple(self, file_type: Union[str, Tuple[str, ...]]) -> Tuple[str, ...]:
+		"""Takes filetype(s) as string or tuple. Filetype should be '.xyz'
+		or name of language. Outputs tuple of file extentions"""
+		if isinstance(file_type, str):
+			file_type = file_type.lower()
+			if file_type.startswith("."):
+				self.ext_tup = (file_type, )
+			elif file_type in self.file_type_dict:
+				self.ext_tup = self.file_type_dict[file_type]
+			else:
+				raise ValueError("filetype should be in form '.xyz' or 'python', 'javascript', 'c' ")
+		elif isinstance(file_type, tuple):
+			for x in file_type:
+				each_tup: Tuple[str, ...] = self.ext_tuple(x)
+				self.ext_tup = self.ext_tup + each_tup
+		else:
+			raise TypeError("filetype must be a string or tuple of strings")
+		return self.ext_tup
+
+	def exclude_list(self, black_list: Union[str, List[str]]=None) -> List[str]:
+		if black_list:
+			if isinstance(black_list, list):
+				self.exc_list += black_list
+			elif isinstance(black_list, str):
+				self.exc_list.append(black_list)
+			else:
+				raise TypeError("Excluded subfolders should be list of strings")
+		return self.exc_list
+
+	def typeLines(
+		self, fold_dir: str,
+		file_type: Union[str, Tuple[str, ...]],
+		black_list: Union[str, List[str]]=None) -> int:
+		"""Takes fold_dir as abs or rel path string. Takes filetype as string or
+		tuple, converted by ext_tuple() to file extensions, then LOC counted in matching
+		files in fold_dir and subfolders. Excluded subfolders in from exclude_list()"""
+		self.ext_tup = self.ext_tuple(file_type)
+		self.exc_list = self.exclude_list(black_list)
+		lines = 0
+		for thing in os.listdir(fold_dir):
+			thing = os.path.join(fold_dir, thing)
+			if os.path.isfile(thing) and thing.endswith(self.ext_tup):
+				with open(thing, 'r') as f:
+					newlines = f.readlines()
+					lines += len(newlines)
+			elif os.path.isdir(thing) and not any(x in thing for x in self.exc_list):
+				fold_lines = self.typeLines(thing, file_type)
+				lines += fold_lines
+		return lines
+
+	# textList = ['a.tif','b.jpg','c.doc','d.txt','e.tif'];
+	# filteredList = filter(lambda x:x.endswith('.tif'), textList)
+
+
 def typeLines_print(fold_dir: str) -> Dict[str, int]:
 	# pyLOC = pyLines(fold_dir)
 	# jsLOC = jsLines(fold_dir)
 	# cLOC = cLines(fold_dir)
-	pyLOC2 = typeLines(fold_dir, "python")
-	jsLOC2 = typeLines(fold_dir, "javascript")
-	cLOC2 = typeLines(fold_dir, "C")
+	pyLOC2 = TypeLines().typeLines(fold_dir, "python")
+	jsLOC2 = TypeLines().typeLines(fold_dir, "javascript")
+	cLOC2 = TypeLines().typeLines(fold_dir, "c")
 	# print(str(pyLOC) + "py", str(jsLOC) + "js", str(cLOC) + "c")
 	# return {"py": pyLOC, "js": jsLOC, "c": cLOC, }
 
