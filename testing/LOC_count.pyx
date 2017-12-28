@@ -1,6 +1,11 @@
 import os
 from typing import List, Dict, Optional, Tuple, Union  # , Any, NewType, get_type_hints
+import cython
 
+def xyz(a: cython.longlong, b: cython.long, c: str) -> cython.int:
+	d: cython.longlong = (a * b)*(10 * b)
+	e: cython.int = len(str(d) + c)
+	return e
 
 def countlines(
 	start: str,
