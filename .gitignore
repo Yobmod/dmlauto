@@ -3,7 +3,7 @@
 /.cache
 /.mypy_cache
 *.idea
-/build
+*/build
 
 *.pyc
 __pycache__
