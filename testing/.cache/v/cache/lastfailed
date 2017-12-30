@@ -1,3 +1,5 @@
 {
-  "tests/LOC_count_test.py": true
+  "tests/LOC_count_test.py::TestPyJsCLines": true,
+  "tests/LOC_count_test.py::TestTypeLines": true,
+  "tests/LOC_count_test.py::Test_Countlines": true
 }
