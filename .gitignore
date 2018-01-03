@@ -4,6 +4,9 @@
 /.mypy_cache
 *.idea
 */build
+*/dist
+/build
+/dist
 
 *.pyc
 __pycache__
