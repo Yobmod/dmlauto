@@ -38,7 +38,7 @@ def bf(
 		elif s == '-':
 			arr[ptr] -= 1
 		elif s == '.':
-			print((arr[ptr]), end="")
+			print(chr(arr[ptr]), end="")
 		elif s == ',':	 # read from data
 			if isinstance(data, str):
 				if (0 <= idx < len(data)):
