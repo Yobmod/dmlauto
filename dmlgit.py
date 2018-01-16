@@ -17,10 +17,10 @@ git_dirs = (curr_dir, dmlauto, dmlreact)
 
 for git_dir in git_dirs:
 	g = git.cmd.Git(git_dir)
-	#g.add(update=True)
-	#g.commit()
+	# g.add(update=True)
+	# g.commit()
 	try:
 		g.push()
 	except git.exc.GitCommandError:
 		g.pull()
-	#g.checkout()
+	# g.checkout()

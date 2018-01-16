@@ -119,7 +119,7 @@ def ext_tuple(file_type: Union[str, Tuple[str, ...]]) -> Tuple[str, ...]:
 	return ext_tup
 
 
-def exclude_list(black_list: Union[str, List[str]]=None) -> List[str]:
+def exclude_list(black_list: Union[str, List[str]]="") -> List[str]:
 	exc_list: List[str] = ["vendor", "dist", "build", "htmlcov", ]
 	if black_list:
 		if isinstance(black_list, list):
@@ -134,7 +134,7 @@ def exclude_list(black_list: Union[str, List[str]]=None) -> List[str]:
 def typeLines(
 	fold_dir: str,
 	file_type: Union[str, Tuple[str, ...]],
-	black_list: Union[str, List[str]]=None) -> int:
+	black_list: Union[str, List[str]]="") -> int:
 	"""Takes fold_dir as abs or rel path string. Takes filetype as string or
 	tuple, converted by ext_tuple() to file extensions, then LOC counted in matching
 	files in fold_dir and subfolders. Excluded subfolders in from exclude_list()"""
