@@ -70,3 +70,31 @@ ave_slope = (minmin[0] + minmax[0] + maxmin[0] + maxmax[0]) / 4
 
 print(ave_slope)
 print(ave_stderr)
+
+#
+x_data = []           
+for i in range(4):
+    d_d = [] 
+    d_d.append(BET_x[i])
+    d_d.append(min_x[i])
+    d_d.append(max_x[i])
+    x_data.append(d_d)  # x_data = list ofx1, x2, x3....
+#print(x_data)
+##    
+y_data = []           
+for i in range(4):
+    d_d = [] 
+    d_d.append(BET_y[i])
+    d_d.append(min_y[i])
+    d_d.append(max_y[i])
+    y_data.append(d_d)  # x_data = list ofx1, x2, x3....
+
+
+x_comb = [(a,b,c,d) for a in x_data[0] for b in x_data[1] for c in x_data[2] for d in x_data[3]]
+y_comb = [(a,b,c,d) for a in y_data[0] for b in y_data[1] for c in y_data[2] for d in y_data[3]]
+print(y_comb)
+
+for x in x_comb:
+    for y in y_comb:
+        plt.plot(x, y, 'g')
+plt.show()
