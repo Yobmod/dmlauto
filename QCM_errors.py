@@ -31,6 +31,7 @@ BET_y = (40, 80, 100, 130)          # P/V(P0-P)
 err_x = (0.01, 0.04, 0.02, 0.05)
 err_y = (0.2, 0.3, 0.5, 0.9)
 
+total_error = np.multiply(err_x, err_y)
 min_x = np.subtract(BET_x, err_x)
 min_y = np.subtract(BET_y, err_y)
 max_x = np.add(BET_x, err_x)
@@ -50,8 +51,7 @@ def plot_BET(BET_x: TupFlType, BET_y: TupFlType,
     lininfo = linregress(BET_x, BET_y)
     print(lininfo)           # var = (gradient, intercept, r-val, p-val, sterr(grad), )
     BET_line_eqn = "y=%.6fx+(%.6f)" % (linfit[0], linfit[1])
-    print(BET_line_eqn)
-
+    print("BET line : " + BET_line_eqn)
 
 plot_BET(BET_x, BET_y)
 
@@ -60,45 +60,30 @@ minmax = linregress(min_x, max_y)
 maxmax = linregress(max_x, max_y)
 maxmin = linregress(max_x, min_y)
 
-print(minmin)
-print(minmax)
-print(maxmin)
-print(maxmax)
+# print(minmin)
+# print(minmax)
+# print(maxmin)
+# print(maxmax)
 
 ave_stderr = (minmin[4] + minmax[4] + maxmin[4] + maxmax[4]) / 4
 ave_slope = (minmin[0] + minmax[0] + maxmin[0] + maxmax[0]) / 4
+ave_interc = (minmin[1] + minmax[1] + maxmin[1] + maxmax[1]) / 4
 
-print(ave_slope)
-print(ave_stderr)
+BET_ave_eqn = "y=%.6fx+(%.6f)" % (ave_slope, ave_interc)
+print("BET ave : " + BET_ave_eqn)
 
-#
-x_data = []           
-for i in range(4):
-    d_d = [] 
-    d_d.append(BET_x[i])
-    d_d.append(min_x[i])
-    d_d.append(max_x[i])
-    x_data.append(d_d)  # x_data = list ofx1, x2, x3....
+m, c = np.polyfit(BET_x, BET_y, 1, w = [1.0 / ty for ty in total_error])
 
-y_data = []           
-for i in range(4):
-    d_d = [] 
-    d_d.append(BET_y[i])
-    d_d.append(min_y[i])
-    d_d.append(max_y[i])
-    y_data.append(d_d)  # x_data = list ofx1, x2, x3....
+BET_weighted = "y=%.6fx+(%.6f)" % (m, c)
+print("BET weight : " + BET_weighted)
 
+from math import sqrt
 
-x_comb = [(a,b,c,d) for a in x_data[0] for b in x_data[1] for c in x_data[2] for d in x_data[3]]
-y_comb = [(a,b,c,d) for a in y_data[0] for b in y_data[1] for c in y_data[2] for d in y_data[3]]
+BET_x = np.array(BET_x)
+slope, intercept, r, prob2, see = linregress(BET_x, BET_y)
+mx = BET_x.mean()
+sx2 = ((BET_x-mx)**2).sum()
+sd_intercept = see * sqrt((1./len(BET_x)) + mx*mx/sx2)
+sd_slope = see * sqrt(1./sx2)
 
-grads = []
-ave_grad = 0
-for x in x_comb:
-    for y in y_comb:
-        plt.plot(x, y, 'g')
-        lininfo = linregress(x, y)
-        grads.append(lininfo[0])
-        ave_grad += lininfo[0]
-plt.show()
-print(ave_grad / len(x_comb))
+print(sd_slope, sd_intercept)
