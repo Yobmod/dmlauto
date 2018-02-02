@@ -26,10 +26,10 @@ def calc_BET_x(vol_water: IterNumType, V: IterNumType) -> Tuple[float, ...]:
     return BET_x                    # P/V(P0-P)
 
 
-BET_x = (0.1, 0.2, 0.3, 0.4)     # P/P0 (water)
-BET_y = (40, 80, 100, 130)          # P/V(P0-P)
-err_x = (0.01, 0.04, 0.02, 0.05)
-err_y = (0.2, 0.3, 0.5, 0.9)
+BET_y = (38.05, 63.64, 111.1, 173.0)     # P/P0 (water)
+BET_x = (0.0416, 0.1041, 0.2082, 0.3122)          # P/V(P0-P)
+err_y = (0.01, 0.04, 0.02, 0.05)
+err_x = (0.002, 0.003, 0.005, 0.009)
 
 total_error = np.multiply(err_x, err_y)
 min_x = np.subtract(BET_x, err_x)
@@ -79,10 +79,53 @@ print("BET weight : " + BET_weighted)
 
 from math import sqrt
 
-BET_x = np.array(BET_x)
-slope, intercept, r, prob2, see = linregress(BET_x, BET_y)
-mx = BET_x.mean()
-sx2 = ((BET_x-mx)**2).sum()
-chi2 = see / (sqrt(1.0 / sx2))
-interc_err = chi2  * sqrt((1./len(BET_x)) + mx*mx/sx2)
-print(see, interc_err)
+#BET_x = np.array(BET_x)
+#slope, intercept, r, prob2, see = linregress(BET_x, BET_y)
+#mx = BET_x.mean()
+#sx2 = ((BET_x-mx)**2).sum()
+#chi2 = see / (sqrt(1.0 / sx2))
+#interc_err = chi2  * sqrt((1./len(BET_x)) + mx*mx/sx2)
+#print(see, interc_err)
+
+
+x_data = []           
+for i in range(4):
+    d_d = [] 
+    d_d.append(BET_x[i])
+    d_d.append(min_x[i])
+    d_d.append(max_x[i])
+    x_data.append(d_d)  # x_data = list ofx1, x2, x3....
+
+y_data = []           
+for i in range(4):
+    d_d = [] 
+    d_d.append(BET_y[i])
+    d_d.append(min_y[i])
+    d_d.append(max_y[i])
+    y_data.append(d_d)  # x_data = list ofx1, x2, x3....
+    
+
+x_comb = [(a,b,c,d) for a in x_data[0] for b in x_data[1] for c in x_data[2] for d in x_data[3]]
+y_comb = [(a,b,c,d) for a in y_data[0] for b in y_data[1] for c in y_data[2] for d in y_data[3]]
+#print(y_comb)
+  
+grads = []; sum_grads = 0
+intercepts = []; sum_intercepts = 0
+std_errs = []; sum_std_errs = 0
+for x in x_comb:
+    for y in y_comb:
+        lininfo = linregress(x, y)
+        #plt.plot(x, y, 'g')
+        grads.append(lininfo[0])
+        sum_grads += lininfo[0]
+        intercepts.append(lininfo[1])
+        sum_intercepts += lininfo[1]
+        std_errs.append(lininfo[4])
+        sum_std_errs += lininfo[4]
+
+ave_grads = sum_grads / len(grads)
+ave_intercepts = sum_intercepts / len(intercepts)
+ave_std_errs = sum_std_errs / len(std_errs)
+BET_total_ave = "y=%.6fx+(%.6f)" % (ave_grads, ave_intercepts)
+print("BET total ave : " + BET_total_ave, ave_std_errs) 
+print(len(grads) ** (1/4))

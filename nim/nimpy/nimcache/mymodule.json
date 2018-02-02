@@ -1,0 +1,20 @@
+{"compile":[
+],
+"link":[
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\mymodule.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_system.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_sharedlist.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_locks.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\nimpy_nimpy.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_dynlib.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_macros.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_ospaths.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_strutils.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_complex.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_parseutils.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_math.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_algorithm.o",
+"c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_winlean.o"
+],
+"linkcmd": "C:\\nim-0.17.2\\dist\\mingw64\\bin\\gcc.exe   -shared -o c:\\webdev\\dmlauto\\nim\\nimpy\\mymodule.dll  c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\mymodule.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_system.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_sharedlist.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_locks.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\nimpy_nimpy.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_dynlib.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_macros.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_ospaths.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_strutils.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_complex.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_parseutils.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_math.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_algorithm.o c:\\webdev\\dmlauto\\nim\\nimpy\\nimcache\\stdlib_winlean.o    "
+}

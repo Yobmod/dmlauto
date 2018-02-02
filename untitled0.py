@@ -1,21 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+a = np.array([[0.023392, 0.006976],
+              [0.029888, 0.039104],
+              [0.033328, 2.198592],
+              [0.065632, 5.864992],
+              [0.801120, 76.550461]])
 
-data = np.array([
-    [1, 6],
-    [2, 5],
-    [3, 7],
-    [4, 10]
-])
-m = len(data)
-X = np.array([np.ones(m), data[:, 0]]).T
-y = np.array(data[:, 1]).reshape(-1, 1)
-betaHat = np.linalg.solve(X.T.dot(X), X.T.dot(y))
-print(betaHat)
-plt.figure(1)
-xx = np.linspace(0, 5, 2)
-yy = np.array(betaHat[0] + betaHat[1] * xx)
-plt.plot(xx, yy.T, color='b')
-plt.scatter(data[:, 0], data[:, 1], color='r')
+
+xlabels = ['a', 'b', 'c', 'd', 'e', ]
+plt.xticks([0,1,2,3,4], xlabels)
+
+
+plt.plot(a[:,0])
+plt.plot(a[:,1])
 plt.show()
