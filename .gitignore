@@ -10,6 +10,11 @@
 
 *.pyc
 __pycache__
+
+.cache/
+.mypy_cache/
+.idea/
+
 myvenv
 local_settings.py
 db.sqlite3
