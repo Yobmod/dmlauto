@@ -1,10 +1,13 @@
-import mechanicalsoup as ms
-from urllib.parse import urlsplit, urljoin
-from PIL import Image
-from io import StringIO, BytesIO
-import requests
-import time
+"""."""
 import os
+# import time
+# from PIL import Image
+# from io import BytesIO, StringIO
+from urllib.parse import urljoin, urlsplit
+
+import mechanicalsoup as ms
+import requests
+from typing import List, Union, BinaryIO
 
 # from urllib.request import urlopen
 # from bs4 import BeautifulSoup as bs
@@ -25,24 +28,31 @@ imagetype = [".jpg", ".ico", ".gif"]
 
 browser = ms.StatefulBrowser(soup_config={'features': 'html5lib'})  # ms.Browser()
 response = browser.open(url)  # ;print(response)
-browser_url = response.url  # browser.get_url()  # ;print(browser_url)
+browser_url: str = response.url  # browser.get_url()  # ;print(browser_url)
 split_url = urlsplit(browser_url)  # ;print(browser_url)
 base_url = split_url.scheme + "://" + split_url.netloc  # ;print(base_url)
-html = response.text  # ;print(html)
+html: str = response.text  # ;print(html)
 soup = browser.get_current_page()  # ;print(soup.prettify())
 browser.close()
 
-dir = os.getcwd()
-print(dir)
+save_dir: str = os.getcwd()  # ;print(save_dir)
+link_list: List[str] = []
 
-for link in soup.select('a'):
+for i, link in enumerate(soup.select('a')):
     # print(link.text, '->', link.attrs['href'])
     # link_raw = str(link)
     href_raw = str(link.get('href'))
-    if any(x in href_raw for x in filetype):
-        # print(link)
+    if any(x in href_raw for x in filetype):  # print(link)
         # print(link.attrs['href'])
-        pass
+        link_response = requests.get(base_url + href_raw, stream=True)
+        if link_response.status_code == 200:
+            link_name = href_raw.lstrip("/")
+            f: BinaryIO
+            with open(save_dir + '/' + link_name,'wb') as f:
+                f.write(link_response.content)
+                
+    elif ".htm" in href_raw:
+        link_list.append(link)
 
 for image in soup.select('img'):  # print(image)
     image_raw = str(image)
@@ -52,9 +62,9 @@ for image in soup.select('img'):  # print(image)
         image_response = requests.get(base_url + src_raw, stream=True)
         if image_response.status_code == 200:
             image_name = src_raw.lstrip("/")
-            f = open(dir + '/' + image_name,'wb')
-            f.write(image_response.content)
-            f.close()
+            fp: BinaryIO = open(save_dir + '/' + image_name,'wb')
+            fp.write(image_response.content)
+            fp.close()
             #i = Image.open(BytesIO(image_response.content))
             #i.save(image_name)
 
