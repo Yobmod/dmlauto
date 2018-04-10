@@ -1,16 +1,16 @@
-"""."""
+"""..."""
 import os
 # import time
 # from PIL import Image
 # from io import BytesIO, StringIO
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urlsplit  # , urljoin
 
 import mechanicalsoup as ms
 import requests
-from typing import List, Union, BinaryIO
+from typing import List, BinaryIO, Optional
 
 # from urllib.request import urlopen
-# from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs
 # import urllib3
 # import re
 # from string import printable
@@ -18,25 +18,55 @@ from typing import List, Union, BinaryIO
 DEBUG = True
 
 if DEBUG:
-    url = "http://www.irrelevantcheetah.com/browserimages.html"
+    start_url = "http://www.irrelevantcheetah.com/browserimages.html"
 else:
-    url = "http://" + input("Where would you like to start searching?\n")
-print(url)
+    start_url = "http://" + input("Where would you like to start searching?\n")
+print(start_url)
 
 filetype = [".pdf", ".epub", ".mobi"]
 imagetype = [".jpg", ".ico", ".gif"]
 
-browser = ms.StatefulBrowser(soup_config={'features': 'html5lib'})  # ms.Browser()
-response = browser.open(url)  # ;print(response)
-browser_url: str = response.url  # browser.get_url()  # ;print(browser_url)
-split_url = urlsplit(browser_url)  # ;print(browser_url)
-base_url = split_url.scheme + "://" + split_url.netloc  # ;print(base_url)
-html: str = response.text  # ;print(html)
-soup = browser.get_current_page()  # ;print(soup.prettify())
-browser.close()
 
-save_dir: str = os.getcwd()  # ;print(save_dir)
+def get_base_url(url: str) -> str:
+    browser = ms.StatefulBrowser(soup_config={'features': 'html5lib'})  # ms.Browser()
+    response = browser.open(url)  # ;print(response)
+    browser_url: str = response.url  # browser.get_url()  # ;print(browser_url)
+    split_url = urlsplit(browser_url)  # ;print(browser_url)
+    base_url = split_url.scheme + "://" + split_url.netloc  # ;print(base_url)
+    return base_url
+    
+
+def get_soup(url: str) -> bs:
+    browser = ms.StatefulBrowser(soup_config={'features': 'html5lib'})  # ms.Browser()
+    # response = browser.open(url)  # ;print(response)
+    # html: str = response.text  # ;print(html)
+    soup = browser.get_current_page()  # ;print(soup.prettify())
+    browser.close()
+    return soup
+
+
+def download_images(soup: bs) -> Optional[List[str]]:
+    link_list: List[str] = []
+    for i, link in enumerate(soup.select('a')):  # print(link.text, '->', link.attrs['href'])
+        href_raw = str(link.get('href'))
+        if any(x in href_raw for x in filetype): # print(link.attrs['href'])
+            link_response = requests.get(base_url + href_raw, stream=True)
+            if link_response.status_code == 200:
+                link_name = href_raw.lstrip("/")
+                f: BinaryIO
+                with open(save_dir + '/' + link_name, 'wb') as f:
+                    f.write(link_response.content)
+        elif ".htm" in href_raw:
+            link_list.append(link)
+    return link_list
+
+
+base_url = get_base_url(start_url)
+soup = get_soup(start_url)
+
+save_dir = os.getcwd()  # ;print(save_dir)
 link_list: List[str] = []
+
 
 for i, link in enumerate(soup.select('a')):
     # print(link.text, '->', link.attrs['href'])
@@ -48,11 +78,11 @@ for i, link in enumerate(soup.select('a')):
         if link_response.status_code == 200:
             link_name = href_raw.lstrip("/")
             f: BinaryIO
-            with open(save_dir + '/' + link_name,'wb') as f:
+            with open(save_dir + '/' + link_name, 'wb') as f:
                 f.write(link_response.content)
-                
     elif ".htm" in href_raw:
         link_list.append(link)
+
 
 for image in soup.select('img'):  # print(image)
     image_raw = str(image)
@@ -62,16 +92,16 @@ for image in soup.select('img'):  # print(image)
         image_response = requests.get(base_url + src_raw, stream=True)
         if image_response.status_code == 200:
             image_name = src_raw.lstrip("/")
-            fp: BinaryIO = open(save_dir + '/' + image_name,'wb')
+            fp: BinaryIO = open(save_dir + '/' + image_name, 'wb')
             fp.write(image_response.content)
             fp.close()
-            #i = Image.open(BytesIO(image_response.content))
-            #i.save(image_name)
+            # i = Image.open(BytesIO(image_response.content))
+            # i.save(image_name)
 
 
-    
-"""  # w/o mechanicalsoup method
-response = requests.get(url)  # ;print(response)
+"""
+# w/o mechanicalsoup method
+response = requests.get(start_url)  # ;print(response)
 html: str = response.text  # ;print(html)
 # parsers: 'lxml, 'html.parser', 'hml5lib'
 soup = bs(html, 'lxml')  # ;print(soup.prettify())

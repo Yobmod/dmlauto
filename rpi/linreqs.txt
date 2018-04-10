@@ -7,6 +7,7 @@ html5lib==1.01
 idna==2.6
 MechanicalSoup==1.10.0
 mypy==0.58
+opencv-contrib-python==3.4.0.12
 pytest==3.5.0
 pytest-cov==2.5.1
 pytest-mypy==0.3.0
