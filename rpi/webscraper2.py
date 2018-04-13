@@ -87,7 +87,9 @@ def download_links(soup: bs, start_url: str, filetypes: List[str]) -> List[str]:
     print(link_list)
     return link_list
 
+
 download_links(soup, start_url, filetype)  # ;print(follow_urls)
+
 
 def download_images(soup: bs) -> None:
     for image in soup.select('img'):  # print(image)
