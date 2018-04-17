@@ -8,8 +8,9 @@ from urllib.parse import urlsplit  # , urljoin
 import mechanicalsoup as ms
 from bs4 import BeautifulSoup as bs
 import requests
-from typing import List, BinaryIO, Optional, AnyStr, Union
+from typing import List, BinaryIO, Optional, AnyStr, Union, Set
 
+from concurrent.futures import ThreadPoolExecutor, as_completed, Future
 # from urllib.request import urlopen
 # import urllib3
 # import re
@@ -77,7 +78,6 @@ def get_none_soup(url: str) -> bytes:
 def download_links(start_url: str, filetypes: List[str]) -> List[str]:
     link_list: List[str] = []
     base_url = get_base_url(start_url)
-    # print(start_url)
     soup = get_soup(start_url)  # ;print(soup)
     try:
         for index, link in enumerate(soup.select('a')):  # print(link.text, '->', link.attrs['href'])
@@ -106,12 +106,11 @@ def download_links(start_url: str, filetypes: List[str]) -> List[str]:
         # print(number_links, link_list)
     except AttributeError:
         # print("AttributeError: Soup returned None? Embedded file?")
-        page_content = get_none_soup(start_url)  # TODO
-        embeddedfilenum = random.randint(0, 1000000)  # TODO(dml) make not random name
-        # save_dir_name = 
-        with open(save_dir + '/' + str(embeddedfilenum) + '.pdf', 'wb') as f:
-            f.write(page_content)
-            print(start_url)
+        page_content = get_none_soup(start_url)  
+        embeddedfilenum = str(random.randint(0, 1000000))  # TODO() get initial bytestring of page_content, regex strip, use as filename
+        with open(save_file_dir + '/' + embeddedfilenum + '.pdf', 'wb') as file:
+            file.write(b'This is a test\n')
+            # print(save_file_dir)
     except Exception as e:
         print(e)
     finally:
@@ -143,7 +142,7 @@ def download_images(start_url: str, filetypes: List[str]) -> None:
                         # i = Image.open(BytesIO(image_response.content))
                         # i.save(image_name)
     except Exception as e:
-        pass  # print(e)
+        pass  # print(e)  # if link is to embedded file, coverdd by download_links() 
 
 download_images(start_url, imagetype)
 
@@ -167,12 +166,50 @@ for leftover in link_list:  # print(leftover)
     else:
         the_url = ""
 
+
+def testy(word:str) -> None:
+    print(word + 'y')
+
+
+
+#with ThreadPoolExecutor(max_workers=50) as pool:
+
+# pool = ThreadPoolExecutor(50)
+# futures: List[Future] = []
+# for the_url in intern_links:
+#     if the_url is True:
+#         futures.append(pool.submit(download_links, (the_url, filetype)))
+#         pool.submit(download_links, (the_url, filetype))
+#         pool.submit(download_images, (the_url, imagetype))
+#         pool.submit(testy, "ppop")
+# future: Future;
+# for future in as_completed(futures):
+#     try:
+#         print(future.result())
+#         print("ok" * 10)
+#     except Exception as exc:
+#        pass
 # print(link_list)
-print(intern_links)
-print(extern_links)
+# print(intern_links)
+# print(extern_links)
 
+with ThreadPoolExecutor(max_workers=50) as pool:
+    futures: List[Future] = []
+    link_set: Set[str] = set()
+    for the_url in intern_links:
+    # download_images(the_url, imagetype)
+        pool.submit(print, the_url)
+        pool.submit(download_images, the_url, imagetype)
+        future = pool.submit(download_links, the_url, filetype)
+        futures.append(future)
 
-for the_url in intern_links:
-    download_images(the_url, imagetype)
-    download_links(the_url, filetype)
+    for future in as_completed(futures):
+        link_set = link_set|set(future.result())
+        link_setlist = sorted(link_set)
+    # print(link_set)
+
+    with open(save_results_dir + '/' + 'link_set.txt', 'w') as res_file:
+        for link in link_setlist:
+            res_file.write(link + '\n')
+
 

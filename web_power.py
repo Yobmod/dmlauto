@@ -47,13 +47,13 @@ app = bt.Bottle()
 # *** WARNING ANYTHING STORED IN THE PUBLIC FOLDER WILL BE AVAILABLE TO
 # DOWNLOAD BY ANYONE CONNECTED TO THE SAME NETWORK ***
 @app.route('/public/<filename>')
-def server_public(filename):
+def server_public(filename: route) -> response:
     return static_file(filename, root=DOCUMENT_ROOT + "/public")
 
 
 # Handle switch on request
 @app.route('/switchon')
-def switchon():
+def switchon() -> str:
     socket = int(request.query.socket)
     # If single socket requested
     if (socket > 0 and socket <= 4):
@@ -70,7 +70,7 @@ def switchon():
 
 
 @app.route('/switchoff')
-def switchoff():
+def switchoff() -> str:
     socket = int(request.query.socket)
     # If single socket requested
     if(socket > 0 and socket <= 4):
@@ -88,7 +88,7 @@ def switchoff():
 
 # Serve up the default index.html page
 @app.route('/')
-def server_home():
+def server_home() -> response:
     return static_file('index.html', root=DOCUMENT_ROOT)
 
 
