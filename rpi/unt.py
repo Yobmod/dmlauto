@@ -1,16 +1,16 @@
+import mechanicalsoup as ms
 
-import re
-bystr = b'%PDF-1.4\n%\x93\x8c\x8b\x9e ReportLab Generated PDF document http://www.reportlab.com\n1 0 obj\n<<\n/F1 2 0 R\n>>\nend'
-r = re.compile(bR"\\")
-print(r)
-print(bystr)
+url = 'https://dmlsite.herokuapp.com/invoice'
 
-hkl = str(bystr[2:-1])
-print(hkl)
+browser = ms.StatefulBrowser(soup_config={'features': 'lxml'})  # ms.Browser()
+browser.open(url)
+soup = browser.get_current_page()
+print(soup)
 
-bewstr = ""
-for char in bystr:
-    if char != b'\\':
-        bewstr += str(char)
+import aiohttp
+from bs4 import BeautifulSoup as bs
 
-print(bewstr)
+response = aiohttp.ClientSession().get(url)
+html = response.text()
+soup = bs(html)
+print(soup)

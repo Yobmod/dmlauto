@@ -64,7 +64,7 @@ def get_soup(url: str) -> bs:
     # soup = bs(html)
     try:
         soup = browser.get_current_page()  # ;print(soup.prettify())
-    except UnicodeEncodeError:
+    except UnicodeEncodeError:  # or; if soup is None...
         raise UnicodeEncodeError
     else:
         return soup
@@ -83,7 +83,7 @@ def download_unknowns(url: str) -> None:
     """."""
     page_content: bytes = get_none_soup(url)
     page_string: bytes = page_content[0:100]
-    """parse section of page bytes and use as name. If unkown encoding
+    """parse section of page bytes and use as name. If unknown encoding
     convert to number string (exclude first few bytes that state filetype) """
     try:
         page_unicode = page_string.decode("ISO-8859-1").replace(R'%', '_')
@@ -159,7 +159,7 @@ def download_images(start_url: str, filetypes: List[str]) -> None:
     base_url = get_base_url(start_url)
     # print(start_url)
     soup = get_soup(start_url)  # ;print(soup)
-    try:
+    if soup is not None:
         for index, image in enumerate(soup.select('img')):  # print(image)
             # image_raw = str(image)
             src_raw = str(image.get('src'))  # print(image.attrs['src'])
@@ -180,8 +180,7 @@ def download_images(start_url: str, filetypes: List[str]) -> None:
                     fp.close()
                     # i = Image.open(BytesIO(image_response.content))
                     # i.save(image_name)
-    except Exception as exc:
-        print(exc)  # if link is to embedded file, covered by download_links()
+
 
 download_images(start_url, imagetype)
 
@@ -220,7 +219,7 @@ with ThreadPoolExecutor(max_workers=50) as pool:
     for future in as_completed(futures):
         link_set = link_set | set(future.result())
         link_setlist = sorted(link_set)
-    # print(link_set)
+    # print(link_setlist)
 
     with open(save_results_dir + '/' + 'link_set.txt', 'w') as res_file:
         for link in link_setlist:
