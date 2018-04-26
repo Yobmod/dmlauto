@@ -31,7 +31,7 @@ https://twitter.com/home
 https://twitter.com/home?status=%20https://dmlsite.herokuapp.com/
 https://twitter.com/privacy
 https://twitter.com/settings/applications
-https://twitter.com/signup?context=oauth&oauth_token=-bK_0wAAAAAA2TOfAAABYt5j_3c
+https://twitter.com/signup?context=oauth&oauth_token=ctj0EgAAAAAA2TOfAAABYwGu2Ug
 https://twitter.com/tos
 https://www.paypal.me/dmlsite
 javascript:Cookielaw.createCookielawCookie();

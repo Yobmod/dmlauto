@@ -82,6 +82,13 @@ def get_none_soup(url: str) -> bytes:
 def download_unknowns(url: str) -> None:
     """."""
     page_content: bytes = get_none_soup(url)
+    # print(page_content)
+
+    '''try:
+        a = page_content.decode('unicode-escape')
+        print(a)
+    except Exception as e:
+        print(e)'''
     page_string: bytes = page_content[0:100]
     """parse section of page bytes and use as name. If unknown encoding
     convert to number string (exclude first few bytes that state filetype) """
@@ -95,10 +102,16 @@ def download_unknowns(url: str) -> None:
             page_parsed = [char for char in page_unicode if char.isalnum() or char == '_']
             unknown_file_name = "".join(page_parsed)[10:30]
         except UnicodeDecodeError:
-            unknown_file_name = "unk_"
-            for char in page_content[10:30]:
-                if char != b'\\':
-                    unknown_file_name += str(char)
+            unknown_file_name = "unk."
+            try:
+                page_unicode = page_content.decode("unicode_escape")
+            except Exception as e:
+                print(e)
+                for byte in page_content[0:100]:
+                    # print(byte)
+                    char = chr(byte)
+                    if char != b'\\':
+                        unknown_file_name += str(char)
     print(unknown_file_name)
     """check beginning of page bytes for a filetype"""
     if b'%PDF' in page_string:  # ;
