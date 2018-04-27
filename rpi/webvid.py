@@ -1,8 +1,30 @@
+"""."""
 import numpy as np
 import cv2
-from typing import Tuple, Any, NewType, TypeVar
+
+from typing import Tuple, Union  # , Any, NewType, TypeVar
+
+
+def set_res(cap: cv2.VideoCapture, resolution: Union[int, str]) -> str:
+    """."""
+    default = 
+    if resolution in [480, "480", "480p"]:
+        cap.set(3, 640)
+        cap.set(4, 480)
+    elif resolution in [1080, "1080", "1080p"]:
+        cap.set(3, 1920)
+        cap.set(4, 1080)
+    elif resolution in [720, "720", "720p"]:
+        cap.set(3, 1920)
+        cap.set(4, 1080)
+    else:
+        set_res(cap, 720)
+        resolution = 720
+    return str(resolution)
 
 cap = cv2.VideoCapture(0)
+
+print(set_res(cap, 120))
 
 while(cap.isOpened()):
     frame_out: Tuple[bool, np.ndarray] = cap.read()
@@ -14,12 +36,13 @@ while(cap.isOpened()):
         # Our operations on the frame come here
         gray: np.ndarray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         vflipped: np.ndarray = cv2.flip(frame, 0)  # 0=vert, 1=horiz, -1=both       # Display the resulting frame
-        hflipped: np.ndarray = cv2.flip(frame, 1)
+        hflipped: np.ndarray = cv2.flip(frame, 1)  # 0=vert, 1=horiz, -1=both       # Display the resulting frame
 
-        # cv2.imshow('frame', frame)
+
+        cv2.imshow('frame', frame)
         # cv2.imshow('frame1', gray)
         # cv2.imshow('frame2', vflipped)
-        cv2.imshow('frame2', hflipped)
+        # cv2.imshow('frame2', hflipped)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
