@@ -1,16 +1,8 @@
 
-import re
-bystr = b'%PDF-1.4\n%\x93\x8c\x8b\x9e ReportLab Generated PDF document http://www.reportlab.com\n1 0 obj\n<<\n/F1 2 0 R\n>>\nend'
-r = re.compile(bR"\\")
-print(r)
-print(bystr)
+# print(resp)
 
-hkl = str(bystr[2:-1])
-print(hkl)
+my_bytestring = b'b'%PDF-1.4\n%\x93\x8c\x8b\x9e ReportLab Generated PDF document http://www.reportlab.com\n1 0 obj\n<<\n/F1 2 0 R\n>>\nendobj\n2 0 obj\n<<\n/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font\n>>\nendobj\n3 0 obj\n<<\n/BitsPerComponent 1 /ColorSpace /DeviceGray /Filter [ /ASCII85Decode ] /Height 23 /Length 223 /Subtype /Image \n  /Type /XObject /Width 24\n>>\nstream\n\n            003B00 002700 002480 0E4940 114920 14B220 3CB650\n            75FE88 17FF8C 175F14 1C07E2 3803C4 703182 F8EDFC\n            B2BBC2 BB6F84 31BFC2 18EA3C 0E3E00 07FC00 03F800\n            1E1800 1FF800>\n            endstream\nendobj\n4 0 obj\n<<\n/Contents 8 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 7 0 R /Resources <<\n/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<\n/FormXob.c7485dcc8d256a6f197ed7802687f252 3 0 R\n>>\n>> /Rotate 0 /Trans <<\n\n>> \n  /Type /Page\n>>\nendobj\n5 0 obj\n<<\n/Outlines 9 0 R /PageMode /UseNone /Pages 7 0 R /Type /Catalog\n>>\nendobj\n6 0 obj\n<<\n/Author () /CreationDate (D:20180426044257+00\'00\') /Creator (\\(unspecified\\)) /Keywords () /ModDate (D:20180426044257+00\'00\') /Producer (pisa HTML to PDF <http://www.htmltopdf.org>) \n  /Subject () /Title (Title) /Trapped /False\n>>\nendobj\n7 0 obj\n<<\n/Count 1 /Kids [ 4 0 R ] /Type /Pages\n>>\nendobj\n8 0 obj\n<<\n/Filter [ /ASCII85Decode /FlateDecode ] /Length 407\n>>\nstream\nGasJN>u/<k(kqGQ.o,(5)CbVkb8lBUNF&Qsn.rKA0\\ZpBb2;sL"=K$J3GHsVD,/F+<e-B%f4PgP%2d=nKLAp/BVlAZE>aoKM5+-Q-)5a%Wi,X9Z;`oLB:6r>Ym\\/X4tZ?TEG8^iPX]*tPC(_)&c:%Q@nKsBOf"^AY>ji>0+3]3@qK(Y7[&tN/tm7D/$G12F+mFV36-\\0Nf#!8e;Q:alAicF%?YT`mB!)eAt;mjTm=K4\\pf^@XMB[S8nk+t&RH\'p0KaM(r6P/Q6#b#WrY\'m/VcCe,e*)T\\du=X\\ELH8@r\'8]19g;pK-+7fPM\\t&7K=aQXG6BM7?rFtQH96lPbko+:>AT3P-L58D6J?KO0&-L)5>LN%]g^8XUNX!D\'b=A;h$khN7G(A41b%tIR3DA+o-K*@~>endstream\nendobj\n9 0 obj\n<<\n/Count 0 /Type /Outlines\n>>\nendobj\nxref\n0 10\n0000000000 65535 f \n0000000073 00000 n \n0000000104 00000 n \n0000000211 00000 n \n0000000610 00000 n \n0000000876 00000 n \n0000000960 00000 n \n0000001209 00000 n \n0000001268 00000 n \n0000001765 00000 n \ntrailer\n<<\n/ID \n[<dcbe414785e863bd9826380b7499bb45><dcbe414785e863bd9826380b7499bb45>]\n% ReportLab generated PDF document -- digest (http://www.reportlab.com)\n\n/Info 6 0 R\n/Root 5 0 R\n/Size 10\n>>\nstartxref\n1811\n%%EOF\n'
 
-bewstr = ""
-for char in bystr:
-    if char != b'\\':
-        bewstr += str(char)
+my_bytestring.decode('unicode-escape')
 
-print(bewstr)
+print(my_bytestring)

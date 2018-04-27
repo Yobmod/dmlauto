@@ -9,9 +9,11 @@ from urllib.parse import urlsplit  # , urljoin
 import mechanicalsoup as ms
 from bs4 import BeautifulSoup as bs
 import requests
+import gevent.monkey
+from gevent import Greenlet
 from typing import List, BinaryIO, Set   # Optional, AnyStr, Union
 
-from concurrent.futures import ThreadPoolExecutor, as_completed, Future
+# from concurrent.futures import ThreadPoolExecutor, as_completed, Future
 # from urllib.request import urlopen
 # import urllib3
 # import re
@@ -64,7 +66,7 @@ def get_soup(url: str) -> bs:
     # soup = bs(html)
     try:
         soup = browser.get_current_page()  # ;print(soup.prettify())
-    except UnicodeEncodeError:
+    except UnicodeEncodeError:  # or; if soup is None...
         raise UnicodeEncodeError
     else:
         return soup
@@ -83,7 +85,7 @@ def download_unknowns(url: str) -> None:
     """."""
     page_content: bytes = get_none_soup(url)
     page_string: bytes = page_content[0:100]
-    """parse section of page bytes and use as name. If unkown encoding
+    """parse section of page bytes and use as name. If unknown encoding
     convert to number string (exclude first few bytes that state filetype) """
     try:
         page_unicode = page_string.decode("ISO-8859-1").replace(R'%', '_')
@@ -207,20 +209,25 @@ for leftover in link_list:  # print(leftover)
 # print(intern_links)
 # print(extern_links)
 
-with ThreadPoolExecutor(max_workers=50) as pool:
-    futures: List[Future] = []
-    link_set: Set[str] = set()
-    for the_url in intern_links:
-        pool.submit(print, the_url)
-        pool.submit(download_images, the_url, imagetype)
-        future = pool.submit(download_links, the_url, filetype)
-        futures.append(future)
+gevent.monkey.patch_all(thread=False)
+# gevent.monkey.patch_thread()
+# gevent.monkey.patch_socket()
 
-    for future in as_completed(futures):
-        link_set = link_set | set(future.result())
+threads: List[Greenlet] = []
+for the_url in intern_links:
+    threads.append(gevent.spawn(print, the_url))
+    threads.append(gevent.spawn(download_images, the_url, imagetype))   
+    threads.append(gevent.spawn(download_links, the_url, filetype))
+
+gevent.joinall(threads)
+
+link_set: Set[str] = set()
+for thread in threads:
+    if thread.value is not None and isinstance(thread.value, list):
+        link_set = link_set | set(thread.value)
         link_setlist = sorted(link_set)
-    # print(link_set)
+# print(link_setlist)
 
-    with open(save_results_dir + '/' + 'link_set.txt', 'w') as res_file:
-        for link in link_setlist:
-            res_file.write(link + '\n')
+with open(save_results_dir + '/' + 'link_set.txt', 'w') as res_file:
+    for link in link_setlist:
+        res_file.write(link + '\n') 

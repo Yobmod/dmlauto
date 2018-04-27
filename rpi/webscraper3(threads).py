@@ -64,7 +64,7 @@ def get_soup(url: str) -> bs:
     # soup = bs(html)
     try:
         soup = browser.get_current_page()  # ;print(soup.prettify())
-    except UnicodeEncodeError:
+    except UnicodeEncodeError:  # or; if soup is None...
         raise UnicodeEncodeError
     else:
         return soup
@@ -82,8 +82,15 @@ def get_none_soup(url: str) -> bytes:
 def download_unknowns(url: str) -> None:
     """."""
     page_content: bytes = get_none_soup(url)
+    # print(page_content)
+
+    '''try:
+        a = page_content.decode('unicode-escape')
+        print(a)
+    except Exception as e:
+        print(e)'''
     page_string: bytes = page_content[0:100]
-    """parse section of page bytes and use as name. If unkown encoding
+    """parse section of page bytes and use as name. If unknown encoding
     convert to number string (exclude first few bytes that state filetype) """
     try:
         page_unicode = page_string.decode("ISO-8859-1").replace(R'%', '_')
@@ -95,10 +102,16 @@ def download_unknowns(url: str) -> None:
             page_parsed = [char for char in page_unicode if char.isalnum() or char == '_']
             unknown_file_name = "".join(page_parsed)[10:30]
         except UnicodeDecodeError:
-            unknown_file_name = "unk_"
-            for char in page_content[10:30]:
-                if char != b'\\':
-                    unknown_file_name += str(char)
+            unknown_file_name = "unk."
+            try:
+                page_unicode = page_content.decode("unicode_escape")
+            except Exception as e:
+                print(e)
+                for byte in page_content[0:100]:
+                    # print(byte)
+                    char = chr(byte)
+                    if char != b'\\':
+                        unknown_file_name += str(char)
     print(unknown_file_name)
     """check beginning of page bytes for a filetype"""
     if b'%PDF' in page_string:  # ;
@@ -159,7 +172,7 @@ def download_images(start_url: str, filetypes: List[str]) -> None:
     base_url = get_base_url(start_url)
     # print(start_url)
     soup = get_soup(start_url)  # ;print(soup)
-    try:
+    if soup is not None:
         for index, image in enumerate(soup.select('img')):  # print(image)
             # image_raw = str(image)
             src_raw = str(image.get('src'))  # print(image.attrs['src'])
@@ -180,8 +193,7 @@ def download_images(start_url: str, filetypes: List[str]) -> None:
                     fp.close()
                     # i = Image.open(BytesIO(image_response.content))
                     # i.save(image_name)
-    except Exception as exc:
-        print(exc)  # if link is to embedded file, covered by download_links()
+
 
 download_images(start_url, imagetype)
 
@@ -220,7 +232,7 @@ with ThreadPoolExecutor(max_workers=50) as pool:
     for future in as_completed(futures):
         link_set = link_set | set(future.result())
         link_setlist = sorted(link_set)
-    # print(link_set)
+    # print(link_setlist)
 
     with open(save_results_dir + '/' + 'link_set.txt', 'w') as res_file:
         for link in link_setlist:

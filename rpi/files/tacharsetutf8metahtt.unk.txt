@@ -1,0 +1,210 @@
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>DMLsite</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://dmlsite.s3.amazonaws.com/static/compressed/css/c5202181d964.css" type="text/css" />
+
+<script type="text/javascript" src="https://dmlsite.s3.amazonaws.com/static/compressed/js/e3f15c6018c6.js"></script>
+<script type="text/javascript" src="https://dmlsite.s3.amazonaws.com/static/compressed/js/96e263be325f.js" defer></script>
+
+<link rel="icon" href="https://dmlsite.s3.amazonaws.com/static/dmlmain/icons/favicon.ico"/>
+
+ 
+</head>
+
+<body>
+
+    <div class="header_footer .col-md-12">
+    <div class="container page-header header_footer">
+				<a href="/contact/" class="top-menu" data-toggle="tooltip" title="Contact" data-placement="auto bottom"><span class="glyphicon glyphicon-phone-alt"></span></a>
+        
+			
+				<form class='navbar-form' method='POST' action='/accounts/login/'> <input type='hidden' name='csrfmiddlewaretoken' value='QC9DyO9DlmuM436KSXkkB2fG6hlxX2ecH8eF0vtXPeCtwnlZZnCovecR4yPsEoUf' />
+					<div class='form-group'>
+						<input type='text' class='form-control' name='username' placeholder='Username' />
+						<input type='text' class='form-control' name='password' placeholder='Password' />
+
+					<button type='submit' class='btn btn-default'>Login</button>
+
+				    	<a id="twitter_login" href="/accounts/twitter/login" class="btn btn-success">Sign in with Twitter</a>
+
+				    </div>
+
+			
+				<a href="/accounts/login/?next=/" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+				<a href="/accounts/register/" class="top-menu"><span class="glyphicon glyphicon-list-alt"></span></a>
+		
+
+
+				<h1><a href="/">DML</a><a href="/blog">Blog</a> / <a href="/polls">Polls</a> </h1>
+	</div>
+	</div>
+
+	<div class = "sidenav">
+		<div class = "col-md-1">
+		<head>
+
+
+<link rel="stylesheet" href="https://dmlsite.s3.amazonaws.com/static/dmlmain/css/dmlmain.css">
+</head>
+
+<ul class = "sitetree">
+	
+	<li class = "sitetree">
+        <a href="/"  class="current_item current_branch">Homepage</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/blog"  >Posts</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/polls"  >Polls</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/invoice"  >Invoice</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/accounts/login/?next=/"  >Login</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/contact"  >Contact</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/research"  >Research</a>
+		
+	</li>
+	
+	<li class = "sitetree">
+        <a href="/research"  >Research</a>
+		
+	</li>
+	
+</ul>
+
+
+		</div>
+	</div>
+
+	<br>
+
+
+	<div class="container">
+        <div class="row">
+            <div class="contentcentre col-md-6">
+
+				
+
+
+
+	<div>
+		<h1>Welcome visitor</h1>
+
+		<h1>This is the homepage of my site.
+
+		Click <a href="/blog">here</a> for posts
+
+		Click <a href="/polls">here</a> for polls</h1>
+
+		<img class="randomfade" style="opacity:0;" src="https://i.ytimg.com/vi/EmZ8Fq2zhZU/hqdefault.jpg"/>
+	</div>
+
+	
+	<div>
+
+		<form method='POST' action='' class="post-form"><input type='hidden' name='csrfmiddlewaretoken' value='QC9DyO9DlmuM436KSXkkB2fG6hlxX2ecH8eF0vtXPeCtwnlZZnCovecR4yPsEoUf' />
+		
+
+<div id="div_id_name" class="form-group"> <label for="id_name" class="control-label ">
+                Name
+            </label> <div class="controls "> <input type="text" name="name" maxlength="200" class="textinput textInput form-control" id="id_name" /> </div> </div> <div id="div_id_email" class="form-group"> <label for="id_email" class="control-label  requiredField">
+                Email<span class="asteriskField">*</span> </label> <div class="controls "> <input type="email" name="email" maxlength="254" class="emailinput form-control" required id="id_email" /> </div> </div>
+
+		<input type='submit', value='Sign Up'/>
+
+	</div>
+	
+
+	<div class="social_links">
+	Share this site to: <span><a href = "https://facebook.com/sharer/sharer.php?u=https://dmlsite.herokuapp.com/">Facebook</a>
+	<a href = "https://twitter.com/home?status=%20https://dmlsite.herokuapp.com/">Twitter</a>
+	</span>
+	</div>
+
+	<div class="fb-comments" data-href= "https://dmlsite.herokuapp.com/"  data-numposts="5">
+	</div>
+
+	<div id="fb-root">
+		<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	</div>
+
+
+
+
+
+				
+				
+
+            </div>
+        </div>
+	</div>
+
+
+<br>
+<br>
+<br>
+
+</body>
+
+
+<div class="header_footer">
+<footer>
+
+
+<div id="CookielawBanner">
+    <div class="container">
+        <h6>Cookies disclaimer</h6>
+        <p>
+            <a class="btn btn-primary pull-right" href="javascript:Cookielaw.createCookielawCookie();">I agree</a>
+            Our site saves small pieces of text information (cookies) on your device in order to deliver better content and for statistical purposes. You can disable the usage of cookies by changing the settings of your browser. By browsing our website without changing the browser settings you grant us permission to store that information on your device.
+        </p>
+    </div>
+</div>
+
+
+	<p class="bottom-menu2">Contact information: <a href="mailto:yobmod@gmail.com">yobmod@gmail.com</a>  <i class="fa fa-bolt fa-spin"></i></p>
+</footer>
+</div>
+
+
+</html>
