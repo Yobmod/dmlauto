@@ -7,7 +7,6 @@ from typing import Tuple, Union  # , Any, NewType, TypeVar
 
 def set_res(cap: cv2.VideoCapture, resolution: Union[int, str]) -> str:
     """."""
-    default = 
     if resolution in [480, "480", "480p"]:
         cap.set(3, 640)
         cap.set(4, 480)
@@ -18,13 +17,13 @@ def set_res(cap: cv2.VideoCapture, resolution: Union[int, str]) -> str:
         cap.set(3, 1920)
         cap.set(4, 1080)
     else:
-        set_res(cap, 720)
         resolution = 720
+        set_res(cap, resolution)
     return str(resolution)
 
 cap = cv2.VideoCapture(0)
 
-print(set_res(cap, 120))
+set_res(cap, 480)
 
 while(cap.isOpened()):
     frame_out: Tuple[bool, np.ndarray] = cap.read()
