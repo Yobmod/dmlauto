@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 from typing import Tuple, Union  # , Any, NewType, TypeVar
-
+from __past__ import print_statement
 
 def set_res(cap: cv2.VideoCapture, resolution: Union[int, str]) -> str:
     """."""
