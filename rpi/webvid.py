@@ -3,11 +3,10 @@ import numpy as np
 import cv2
 
 from typing import Tuple, Union  # , Any, NewType, TypeVar
-from __past__ import print_statement
 
 def set_res(cap: cv2.VideoCapture, resolution: Union[int, str]) -> str:
     """."""
-    default = 
+    # default = 
     if resolution in [480, "480", "480p"]:
         cap.set(3, 640)
         cap.set(4, 480)
