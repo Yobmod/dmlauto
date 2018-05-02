@@ -1,3 +1,10 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "C:\\Users\\Yobmod\\envs\\dmlflask\\Scripts\\python.exe"
+=======
+    "python.pythonPath": "C:\\Anaconda3\\python.exe",
+    "python.linting.mypyEnabled": true,
+    "python.linting.pylamaEnabled": true,
+    "python.linting.enabled": true
+>>>>>>> 2708b3c930df2a8aa0c3ef5dfa68f8967225d848
 }
