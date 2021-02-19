@@ -1,0 +1,73 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "79e00964074f30aba0579a0f9dcfa451e4ea2f89709b721d57af4d82fc4a0ada"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "certifi": {
+            "hashes": [
+                "sha256:339dc09518b07e2fa7eda5450740925974815557727d6bd35d319c1524a04a4c"
+            ],
+            "version": "==2018.10.15"
+        },
+        "future": {
+            "hashes": [
+                "sha256:bf23b29957f758fc0e41625fa773f4a8d679f8fe95e51b43d97de20cfa043ef5"
+            ],
+            "version": "==0.17.1"
+        },
+        "pipenv": {
+            "hashes": [
+                "sha256:117b0015837578cef25ee09c9d38094245966cbff92f0984e0f0fbebdbb5bc75",
+                "sha256:5f760d35de14982353437442d0d2c474bee139ffd69c01148abc11509f6422da",
+                "sha256:7e4b827307e6070468284caa332fcba9c60e532afd2a8ff4c0d6df8be6b9fadb"
+            ],
+            "index": "pypi",
+            "version": "==2018.11.14"
+        },
+        "pyserial": {
+            "hashes": [
+                "sha256:e0770fadba80c31013896c7e6ef703f72e7834965954a78e71a3049488d4d7d8"
+            ],
+            "version": "==3.4"
+        },
+        "rtk": {
+            "hashes": [
+                "sha256:67dbc66b781a66a88890b552f1ee3be0a904ba2ef0ff2a1e20c44cbffda95647"
+            ],
+            "index": "pypi",
+            "version": "==0.3.14"
+        },
+        "virtualenv": {
+            "hashes": [
+                "sha256:686176c23a538ecc56d27ed9d5217abd34644823d6391cbeb232f42bf722baad"
+            ],
+            "version": "==16.1.0"
+        },
+        "virtualenv-clone": {
+            "hashes": [
+                "sha256:afce268508aa5596c90dda234abe345deebc401a57d287bcbd76baa140a1aa58"
+            ],
+            "version": "==0.4.0"
+        },
+        "wheel": {
+            "hashes": [
+                "sha256:c93e2d711f5f9841e17f53b0e6c0ff85593f3b416b6eec7a9452041a59a42688"
+            ],
+            "version": "==0.32.2"
+        }
+    },
+    "develop": {}
+}
