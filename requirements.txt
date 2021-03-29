@@ -17,7 +17,7 @@ pluggy==0.6.0
 psutil==5.4.2
 py==1.5.2
 pygame==1.9.3
-Pygments==2.2.0
+Pygments==2.7.4
 pytest==3.3.1
 pytest-cov==2.5.1
 pytest-cover==3.0.0
